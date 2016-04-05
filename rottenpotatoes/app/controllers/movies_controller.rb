@@ -34,6 +34,7 @@ class MoviesController < ApplicationController
       redirect_to :sort => sort, :ratings => @selected_ratings and return
     end
     @movies = Movie.find_all_by_rating(@selected_ratings.keys, ordering)
+    @msg = params[:msg] if params[:msg]
   end
 
   def new
@@ -63,5 +64,11 @@ class MoviesController < ApplicationController
     flash[:notice] = "Movie '#{@movie.title}' deleted."
     redirect_to movies_path
   end
+  
+  def search_director
+    id = params[:id]
+    @movie = Movie.find(id)
+    @movies = @movie.find_all_by_director
+  end      
 
 end
